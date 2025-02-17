@@ -11,5 +11,3 @@ from products p
 left join inventory i on p.product_id = i.product_id        -- common column is product id
 where i.warehouse_id = 1
 order by i.quantity desc;
-
-
