@@ -1,0 +1,464 @@
+SQL Practice Question
+
+Pre-Requesite:
+Execute below queries for creating tables:
+
+-- Products table
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100),
+    category VARCHAR(50),
+    base_price DECIMAL(10,2),
+    weight_kg DECIMAL(5,2)
+);
+
+
+-- Warehouses table
+CREATE TABLE warehouses (
+    warehouse_id INT PRIMARY KEY,
+    location VARCHAR(100),
+    capacity INT,
+    warehouse_type VARCHAR(50)
+);
+
+
+-- Inventory table
+CREATE TABLE inventory (
+    inventory_id INT PRIMARY KEY,
+    product_id INT,
+    warehouse_id INT,
+    quantity INT,
+    last_updated TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    FOREIGN KEY (warehouse_id) REFERENCES warehouses(warehouse_id)
+);
+
+
+-- Suppliers table
+CREATE TABLE suppliers (
+    supplier_id INT PRIMARY KEY,
+    supplier_name VARCHAR(100),
+    country VARCHAR(50),
+    lead_time_days INT,
+    reliability_score DECIMAL(3,2)
+);
+
+
+-- Insert sample data into products
+INSERT INTO products VALUES
+(1, 'Wireless Earbuds', 'Electronics', 129.99, 0.2),
+(2, 'Gaming Mouse', 'Electronics', 59.99, 0.3),
+(3, 'Yoga Mat', 'Sports', 29.99, 1.0),
+(4, 'Coffee Maker', 'Appliances', 89.99, 3.5),
+(5, 'Running Shoes', 'Sports', 79.99, 0.8),
+(6, 'Smart Watch', 'Electronics', 199.99, 0.15),
+(7, 'Backpack', 'Fashion', 49.99, 0.9),
+(8, 'Protein Powder', 'Health', 39.99, 2.2),
+(9, 'Laptop Stand', 'Office', 29.99, 1.5),
+(10, 'Water Bottle', 'Sports', 19.99, 0.4),
+(11, 'Drawing Tablet', 'Electronics', 159.99, 0.7),
+(12, 'Desk Chair', 'Furniture', 199.99, 12.0),
+(13, 'Blender', 'Appliances', 69.99, 2.8),
+(14, 'Dumbbell Set', 'Sports', 149.99, 20.0),
+(15, 'Wireless Keyboard', 'Electronics', 79.99, 0.6),
+(16, 'Air Purifier', 'Appliances', 149.99, 4.5),
+(17, 'Hiking Boots', 'Sports', 129.99, 1.2),
+(18, 'Security Camera', 'Electronics', 89.99, 0.3),
+(19, 'Office Desk', 'Furniture', 299.99, 25.0),
+(20, 'Tennis Racket', 'Sports', 59.99, 0.4);
+
+
+-- Insert sample data into warehouses
+INSERT INTO warehouses VALUES
+(1, 'Seattle, WA', 10000, 'Standard'),
+(2, 'Dallas, TX', 15000, 'Large'),
+(3, 'Atlanta, GA', 12000, 'Standard'),
+(4, 'Phoenix, AZ', 8000, 'Small'),
+(5, 'Chicago, IL', 20000, 'Large'),
+(6, 'Miami, FL', 9000, 'Standard'),
+(7, 'Denver, CO', 11000, 'Standard'),
+(8, 'Las Vegas, NV', 7000, 'Small'),
+(9, 'Boston, MA', 13000, 'Standard'),
+(10, 'Portland, OR', 10000, 'Standard'),
+(11, 'Houston, TX', 16000, 'Large'),
+(12, 'San Diego, CA', 9500, 'Standard'),
+(13, 'Detroit, MI', 8500, 'Small'),
+(14, 'Nashville, TN', 11500, 'Standard'),
+(15, 'Sacramento, CA', 9000, 'Standard'),
+(16, 'Kansas City, MO', 12500, 'Standard'),
+(17, 'Columbus, OH', 10500, 'Standard'),
+(18, 'San Antonio, TX', 13500, 'Standard'),
+(19, 'Minneapolis, MN', 14000, 'Standard'),
+(20, 'New Orleans, LA', 8000, 'Small');
+
+
+-- Insert sample data into inventory
+INSERT INTO inventory VALUES
+(1, 1, 1, 150, '2025-02-01 10:00:00'),
+(2, 2, 1, 200, '2025-02-01 10:30:00'),
+(3, 3, 2, 300, '2025-02-01 11:00:00'),
+(4, 4, 2, 100, '2025-02-01 11:30:00'),
+(5, 5, 3, 250, '2025-02-01 12:00:00'),
+(6, 6, 3, 175, '2025-02-01 12:30:00'),
+(7, 7, 4, 400, '2025-02-01 13:00:00'),
+(8, 8, 4, 350, '2025-02-01 13:30:00'),
+(9, 9, 5, 225, '2025-02-01 14:00:00'),
+(10, 10, 5, 500, '2025-02-01 14:30:00'),
+(11, 11, 6, 125, '2025-02-01 15:00:00'),
+(12, 12, 6, 75, '2025-02-01 15:30:00'),
+(13, 13, 7, 200, '2025-02-01 16:00:00'),
+(14, 14, 7, 150, '2025-02-01 16:30:00'),
+(15, 15, 8, 275, '2025-02-01 17:00:00'),
+(16, 16, 8, 180, '2025-02-01 17:30:00'),
+(17, 17, 9, 220, '2025-02-01 18:00:00'),
+(18, 18, 9, 190, '2025-02-01 18:30:00'),
+(19, 19, 10, 85, '2025-02-01 19:00:00'),
+(20, 20, 10, 310, '2025-02-01 19:30:00');
+
+
+-- Insert sample data into suppliers
+INSERT INTO suppliers VALUES
+(1, 'TechPro Solutions', 'USA', 3, 4.8),
+(2, 'GlobalGear Manufacturing', 'China', 15, 4.2),
+(3, 'SportEquip International', 'Vietnam', 10, 4.5),
+(4, 'ElectroTech Industries', 'Taiwan', 12, 4.3),
+(5, 'FitLife Supplies', 'USA', 4, 4.9),
+(6, 'Smart Devices Co', 'South Korea', 8, 4.6),
+(7, 'HomeStyle Products', 'Mexico', 6, 4.4),
+(8, 'HealthPlus Corporation', 'Canada', 5, 4.7),
+(9, 'Office Essentials Ltd', 'India', 14, 4.0),
+(10, 'EcoFriendly Goods', 'Germany', 11, 4.5),
+(11, 'Digital Dreams Inc', 'Japan', 9, 4.8),
+(12, 'Comfort Living Co', 'Malaysia', 13, 4.2),
+(13, 'PowerTools Plus', 'USA', 4, 4.6),
+(14, 'FitPro Equipment', 'Thailand', 12, 4.3),
+(15, 'TechnoWorld Systems', 'Singapore', 7, 4.7),
+(16, 'Clean Air Solutions', 'USA', 3, 4.9),
+(17, 'OutdoorPro Gear', 'Indonesia', 16, 4.1),
+(18, 'SmartHome Devices', 'South Korea', 8, 4.5),
+(19, 'WorkSpace Solutions', 'Taiwan', 11, 4.4),
+(20, 'SportMaster Inc', 'Vietnam', 9, 4.6);
+
+
+Practice Questions:
+# PostgreSQL Join Practice Questions
+
+
+
+## Question 1 (LEFT JOIN)
+Find all products and their current inventory levels in Seattle warehouse (warehouse_id = 1), including products with no inventory. Display product name, category, and quantity. Order by quantity descending, with NULLs last.
+
+Expected Output:
+```
+product_name        | category    | quantity
+-------------------|-------------|----------
+Gaming Mouse       | Electronics | 200
+Wireless Earbuds   | Electronics | 150
+Tennis Racket      | Sports      | NULL
+Smart Watch        | Electronics | NULL
+[...remaining products with NULL quantities...]
+```
+
+
+
+
+## Question 2 (INNER JOIN)
+List all warehouses that store electronics products, along with the total quantity and total value of electronics inventory (quantity * base_price). Only include warehouses with electronics inventory worth over $20,000. Order by total value descending.
+
+Expected Output:
+```
+location    | total_quantity | total_value
+------------|---------------|-------------
+Seattle, WA | 350           | 31497.50
+Boston, MA  | 365           | 25696.35
+Chicago, IL | 275           | 21997.25
+```
+
+
+
+
+## Question 3 (SEMI JOIN)
+Find all suppliers who supply products that have current inventory levels below 100 units in any warehouse. Show supplier name, country, and reliability score. Order by reliability score descending.
+
+Expected Output:
+```
+supplier_name      | country     | reliability_score
+------------------|-------------|------------------
+FitLife Supplies  | USA         | 4.90
+TechPro Solutions | USA         | 4.80
+SmartHome Devices | South Korea | 4.50
+```
+
+
+
+
+## Question 4 (CROSS JOIN)
+Generate a report showing all possible product-warehouse combinations for 'Sports' category products and 'Large' type warehouses to help with expansion planning. Show product name, warehouse location, and warehouse capacity.
+
+Expected Output:
+```
+product_name  | location    | capacity
+-------------|-------------|----------
+Yoga Mat     | Dallas, TX  | 15000
+Yoga Mat     | Chicago, IL | 20000
+Yoga Mat     | Houston, TX | 16000
+Running Shoes| Dallas, TX  | 15000
+[...all combinations...]
+```
+
+
+
+
+## Question 5 (Multiple Aggregations)
+Generate a warehouse analytics report showing:
+- Total number of products
+- Average quantity per product
+- Total inventory value
+- Maximum and minimum stock levels
+- Number of distinct categories
+Group by warehouse location and only show warehouses with total inventory value > $50,000.
+
+Expected Output:
+```
+location    | product_count | avg_quantity | total_value | max_stock | min_stock | category_count
+------------|--------------|--------------|-------------|-----------|-----------|---------------
+Chicago, IL | 8            | 245.5        | 75890.50    | 500       | 125       | 4
+Dallas, TX  | 7            | 232.1        | 68720.25    | 450       | 100       | 3
+[...]
+```
+
+
+
+
+## Question 6 (MERGE/UPSERT)
+Using this temporary table structure and data:
+```sql
+CREATE TEMP TABLE inventory_updates (
+    product_id INT,
+    warehouse_id INT,
+    new_quantity INT
+);
+
+INSERT INTO inventory_updates VALUES
+(1, 1, 200),  -- Update existing
+(21, 1, 100); -- Insert new
+```
+Write a MERGE (UPSERT) query to update inventory quantities, inserting new records if they don't exist.
+
+
+
+
+## Question 7 (Complex GROUP BY with conditions)
+Find product categories where:
+- Average inventory value > $10,000
+- At least 3 different products in stock
+- Maximum quantity of any product > 200
+Show category, product count, avg value, and highest stocked product name.
+
+Expected Output:
+```
+category    | product_count | avg_value | highest_stocked_product
+------------|--------------|-----------|----------------------
+Electronics | 5            | 12500.75  | Gaming Mouse
+Sports      | 4            | 11200.50  | Yoga Mat
+[...]
+```
+
+
+
+
+## Question 8 (UNION and UNION ALL)
+Create a report showing:
+1. Products with zero inventory (from LEFT JOIN)
+2. Products with over 400 units in any warehouse
+3. Products with value over $10,000 in any warehouse
+Label each row with its source category.
+
+Expected Output:
+```
+source_category | product_name    | quantity | value
+----------------|----------------|----------|-------
+No Stock        | Smart Watch    | 0        | 0.00
+High Stock      | Backpack       | 450      | 22495.50
+High Value      | Gaming Mouse   | 350      | 20996.50
+[...]
+```
+
+
+
+
+## Question 9 (Function)
+Create a function called `calculate_inventory_metrics` that takes a warehouse_id as input and returns a record containing:
+- Total number of products
+- Total inventory value
+- Average quantity per product
+- Most stocked category
+For the given warehouse.
+
+Call the function for warehouse_id = 1.
+
+Expected Output:
+```
+total_products | total_value | avg_quantity | most_stocked_category
+---------------|-------------|--------------|--------------------
+12             | 45678.50    | 245.5        | Electronics
+```
+
+
+
+
+## Question 10 (Stored Procedure)
+Create a stored procedure called `transfer_inventory` that:
+- Takes source_warehouse_id, target_warehouse_id, product_id, and quantity as parameters
+- Transfers specified quantity from source to target warehouse
+- Includes error handling for insufficient stock
+- Logs the transfer in a new audit_log table
+- Returns success/failure message
+
+Test the procedure with:
+- Success case: Transfer 50 units of product_id 1 from warehouse 1 to warehouse 2
+- Failure case: Try to transfer 1000 units (more than available)
+
+
+
+
+## Question 11 (COALESCE, NULLIF, LPAD/RPAD)
+Create a report showing formatted product details with:
+- Product code (LPAD with zeros to 5 digits)
+- Product name (RPAD with dots to 30 characters)
+- Current stock (COALESCE with 'Out of Stock')
+- Stock status (NULLIF comparison with minimum threshold)
+For all products in Electronics category.
+
+Expected Output:
+```
+product_code | formatted_name                | stock_level | status
+-------------|------------------------------|-------------|--------
+00001        | Wireless Earbuds............| 150         | NORMAL
+00002        | Gaming Mouse................| Out of Stock| LOW
+00006        | Smart Watch................. | 175         | NULL
+```
+
+
+
+
+## Question 12 (Cumulative Sum and Average)
+Generate a monthly sales trend analysis showing:
+- Running total of inventory value
+- Running average of quantity
+- Percentage of total inventory
+Ordered by warehouse location and product category.
+
+Expected Output:
+```
+location    | category    | quantity | running_total | running_avg | pct_of_total
+------------|------------|----------|---------------|-------------|-------------
+Chicago, IL | Electronics| 250      | 12500.00      | 250.00      | 15.5
+Chicago, IL | Sports     | 300      | 27500.00      | 275.00      | 28.3
+Dallas, TX  | Electronics| 200      | 37500.00      | 250.00      | 35.8
+```
+
+
+
+## Question 13 (LEAD/LAG Analysis)
+Analyze inventory changes by comparing:
+- Current quantity with previous month
+- Current quantity with next month
+- Percentage change from previous
+- Projected next month change
+For each product in a specific warehouse.
+
+Expected Output:
+```
+product_name    | current_qty | prev_month_qty | next_month_qty | pct_change | projected_change
+----------------|-------------|----------------|----------------|------------|------------------
+Wireless Earbuds| 150         | 120            | 180            | +25%       | +20%
+Gaming Mouse    | 200         | 180            | 220            | +11%       | +10%
+Smart Watch     | 175         | NULL           | 160            | NULL       | -8.5%
+```
+
+
+
+## Question 14 (Single-Row and Multi-Row Subqueries)
+Find products that meet ALL these conditions:
+- Price higher than average category price (single-row subquery)
+- Stocked in warehouses with >80% capacity utilization (multi-row subquery)
+- Total inventory value higher than any Sports category product (multi-row subquery)
+
+Expected Output:
+```
+product_name    | category    | price  | total_value | warehouses
+----------------|------------|--------|-------------|------------
+Gaming Mouse    | Electronics| 199.99 | 45000.50   | Seattle, Dallas
+Smart Watch     | Electronics| 159.99 | 42500.75   | Chicago, Boston
+```
+
+
+
+## Question 15 (RANK, DENSE_RANK, ROW_NUMBER)
+Create a warehouse performance report showing:
+- Regular ranking by total inventory value
+- Dense ranking by number of products
+- Row number by average quantity
+Include only warehouses handling >5 products.
+
+Expected Output:
+```
+warehouse    | total_value | value_rank | products | product_rank | avg_qty | qty_rn
+-------------|-------------|------------|----------|--------------|---------|--------
+Chicago      | 120500.75  | 1          | 12       | 1            | 245     | 3
+Dallas       | 120500.75  | 1          | 10       | 2            | 300     | 1
+Seattle      | 98750.50   | 3          | 10       | 2            | 280     | 2
+```
+
+
+
+## Question 16 (Self Join)
+Find all pairs of products that:
+- Are in the same category
+- Have price difference < $20
+- Are stocked in same warehouse
+List them as potential substitute products.
+
+Expected Output:
+```
+category    | product1     | price1 | product2     | price2 | warehouse
+------------|-------------|---------|--------------|---------|----------
+Electronics | Gaming Mouse | 59.99   | Keyboard    | 49.99   | Seattle
+Sports      | Yoga Mat    | 29.99   | Water Bottle| 19.99   | Dallas
+```
+
+
+
+## Question 17 (FIRST_VALUE, LAST_VALUE, NTILE)
+Analyze product performance by:
+- First and last products sold in each category
+- Product price quartiles within category
+- Comparison with category boundaries
+
+Expected Output:
+```
+category    | product_name | price | first_sold | last_sold | quartile | price_range
+------------|-------------|-------|------------|-----------|----------|-------------
+Electronics | Smart Watch | 199.99| Earbuds    | Keyboard  | 4        | High
+Sports      | Yoga Mat    | 29.99 | Shoes      | Weights   | 2        | Medium-Low
+```
+
+
+
+## Question 18 (Role-Based Access Control)
+Create a permission structure for an inventory management system with these roles:
+- Inventory Manager: Full access to all tables
+- Stock Clerk: Can view all tables, update inventory quantities
+- Analyst: Can only view (SELECT) all tables
+- Auditor: Can only view inventory and audit_log tables
+
+Expected Output after running GRANT commands:
+```
+Role              | Select | Insert | Update | Delete | References | Trigger
+------------------|---------|---------|---------|---------|------------|----------
+inventory_manager | Yes    | Yes    | Yes    | Yes    | Yes       | Yes
+stock_clerk      | Yes    | No     | Partial| No     | No        | No
+analyst          | Yes    | No     | No     | No     | No        | No
+auditor          | Partial| No     | No     | No     | No        | No
+```
