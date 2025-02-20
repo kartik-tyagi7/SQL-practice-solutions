@@ -67,7 +67,7 @@ BEGIN
         -- logging all the transactions/transfers in the audit_log table.
 
 
-        select "Quantity modified, check andit table";
+        select "Quantity modified, check audit table";
         -- Success message
 	
     else
