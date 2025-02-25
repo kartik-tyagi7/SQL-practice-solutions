@@ -25,7 +25,7 @@ from (
 	first_value(p.product_name) over(partition by p.category order by i.last_updated asc) as first_sold,
 	last_value(p.product_name) over
 		(partition by p.category order by i.last_updated asc rows between unbounded preceding and unbounded following) as last_sold,
-	ntile(3) over(partition by p.category) as quartile
+	ntile(3) over(partition by p.category order by p.base_price) as quartile
 from products p join inventory i 
 on p.product_id = i.product_id) as temp;
 
@@ -42,7 +42,8 @@ on p.product_id = i.product_id) as temp;
 -- then 
     -- we will divide each category in 3 quartile using ntile() function
     -- ntile() will take a number as parameter.
-    -- will categorise the entire data in three category ('Low', 'Medium', 'High') based on the value assigned by ntile()
+    -- will categorise the entire data in three category ('Low', 'Medium', 'High') based on the value assigned by ntile().
+    -- will order the partition by base_price and distribute the values in ('Low', 'Medium', 'High').
     
 -- at last
     -- select the required columns from the above query using a outer query.
